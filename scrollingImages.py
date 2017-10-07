@@ -1,5 +1,6 @@
-import os, tkinter,  random, glob
+import os, tkinter, glob
 from PIL import Image, ImageTk, ImageFile
+from random import randint
 
 
 def changeImage():
@@ -17,8 +18,9 @@ def changeImage():
         widths = widths - 10
         heights = heights - 10
 
-        randInt = random.randint(0, (len(dirlist) - 1))
-        image = Image.open(dirlist[randInt])
+        #randInt = random.randint(0, (len(dirlist) - 1))
+        filename = getfiles()
+        image = Image.open(filename)
         image = image.resize((widths,heights), Image.NEAREST)
 
         #set size to show, in this case the whole picture
@@ -36,6 +38,21 @@ def changeImage():
     except ValueError:
         print("Error")
 
+
+def getfiles():
+    try:
+        allfiles = glob.glob("/Users/hoarec/Documents/Pictures/*.jpg")
+
+        numfiles = len(allfiles)
+
+        arraypos = (randint(0, numfiles-1))
+        print(arraypos)
+        return allfiles[arraypos]
+        # print(glob.glob("/User/hoarec/Documents/Pictures/*.jpg"))
+        # return  #glob.glob("/Users/hoarec/Documents/Pictures/*.jpg")
+    except ValueError:
+        thefile = getfiles();
+        return thefile
 
 tkpi = None #create this global variable so that the image is not derefrenced
 
