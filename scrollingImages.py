@@ -1,4 +1,4 @@
-import os, tkinter, glob
+import os, Tkinter, glob
 from PIL import Image, ImageTk, ImageFile
 from random import randint
 
@@ -21,7 +21,7 @@ def changeImage():
     #randInt = random.randint(0, (len(dirlist) - 1))
     filename = getfiles()
     image = Image.open(filename)
-    image = image.resize((600,480), Image.NEAREST)
+    image = image.resize((800,450), Image.NEAREST)
 
     #set size to show, in this case the whole picture
    # root.geometry('%dx%d' % (image.size[0],image.size[1]))
@@ -30,7 +30,7 @@ def changeImage():
     tkpi = ImageTk.PhotoImage(image)
 
     #Put image in a label and place it
-    label_image = tkinter.Label(root, image=tkpi)
+    label_image = Tkinter.Label(root, image=tkpi)
     label_image.place(x=0,y=0,width=image.size[0],height=image.size[1])
 
     # call this function again in 1/2 a second
@@ -41,7 +41,7 @@ def changeImage():
 
 def getfiles():
     try:
-        allfiles = glob.glob("/Users/hoarec/Documents/Pictures/*.jpg")
+        allfiles = glob.glob("/home/pi/Pictures/*.jpg")
 
         numfiles = len(allfiles)
 
@@ -56,13 +56,13 @@ def getfiles():
 
 tkpi = None #create this global variable so that the image is not derefrenced
 
-root = tkinter.Tk()
+root = Tkinter.Tk()
 #root.geometry(width=500,height=500)
 #root.geometry('+%d+%d' % (-5,-5)) #controls where the window is
 #root.attributes('-alpha', 0.0) #For icon
 #root.iconify()
 #root = tkinter.Toplevel(root)
 #root.attributes('-fullscreen',True)
-root.geometry('600x480') # Size 200, 200
+root.geometry('800x450') # Size 200, 200
 changeImage()
 root.mainloop()
