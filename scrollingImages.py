@@ -1,5 +1,5 @@
-import os, Tkinter, glob
-import Image, ImageTk, ImageFile
+import os, tkinter, glob
+from PIL import Image, ImageTk, ImageFile
 from random import randint
 
 
@@ -7,10 +7,13 @@ def changeImage():
 
     ImageFile.LOAD_TRUNCATED_IMAGES = True
 
+    file = open('config.cfg', 'r')
+    fileValues = file.read().split(',')
+
     global tkpi #need global so that the image does not get derefrenced out of function
     try:
         #gets list of file names in certain directory. In this case, the directory it is in
-        dirlist = glob.glob("/Users/hoarec/Documents/Pictures/*.jpg")
+        #dirlist = glob.glob(filePath + "/*.jpg")
 
         #get random image\
         widths = root.winfo_width()
@@ -30,18 +33,24 @@ def changeImage():
         tkpi = ImageTk.PhotoImage(image)
 
         #Put image in a label and place it
-        label_image = Tkinter.Label(root, image=tkpi)
+        label_image = tkinter.Label(root, image=tkpi)
         label_image.place(x=0,y=0,width=image.size[0],height=image.size[1])
 
         # call this function again in 1/2 a second
-        root.after(10000, changeImage)
+        root.after(fileValues[1], changeImage)
     except ValueError:
         print("Error")
 
 
 def getfiles():
+    file = open('config.cfg', 'r')
+    fileValues = file.read().split(',')
+    filePath =  fileValues[0]
+    file.close()
+    print(filePath)
+
     try:
-        allfiles = glob.glob("/home/pi/Pictures/*.jpg")
+        allfiles = glob.glob(filePath + "/*.jpg")
 
         numfiles = len(allfiles)
 
@@ -56,7 +65,7 @@ def getfiles():
 
 tkpi = None #create this global variable so that the image is not derefrenced
 
-root = Tkinter.Tk()
+root = tkinter.Tk()
 #root.geometry(width=500,height=500)
 #root.geometry('+%d+%d' % (-5,-5)) #controls where the window is
 #root.attributes('-alpha', 0.0) #For icon
