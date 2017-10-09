@@ -1,5 +1,5 @@
 import os, Tkinter, glob
-from PIL import Image, ImageTk, ImageFile
+import Image, ImageTk, ImageFile
 from random import randint
 
 
