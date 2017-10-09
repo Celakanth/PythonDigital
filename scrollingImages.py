@@ -1,8 +1,7 @@
-import os, tkinter, glob
 #On raspberian remove the from PIL and ser the tkinter to Tkinter in all reference locations
+import os, tkinter, glob
 from PIL import Image, ImageTk, ImageFile
 from random import randint
-
 
 def changeImage():
 
@@ -31,8 +30,9 @@ def changeImage():
         label_image = tkinter.Label(root, image=tkpi)
         label_image.place(x=0,y=0,width=image.size[0],height=image.size[1])
 
-        # call this function again in 1/2 a second
+        # call this function again in the value set in the config file
         root.after(fileValues[1], changeImage)
+
     except ValueError:
         print("Error")
 
@@ -47,11 +47,13 @@ def getfiles():
         arraypos = (randint(0, numfiles-1))
         print(arraypos)
         return allfiles[arraypos]
+
     except ValueError:
         thefile = getfiles();
         return thefile
 
-tkpi = None #create this global variable so that the image is not derefrenced
+#create this global variable so that the image is not derefrenced
+tkpi = None
 
 root = tkinter.Tk()
 root.geometry('800x450') # Size Width 800, Heigh 480
