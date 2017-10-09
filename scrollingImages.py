@@ -1,4 +1,5 @@
 import os, tkinter, glob
+#On raspberian remove the from PIL and ser the tkinter to Tkinter in all reference locations
 from PIL import Image, ImageTk, ImageFile
 from random import randint
 
@@ -7,27 +8,21 @@ def changeImage():
 
     ImageFile.LOAD_TRUNCATED_IMAGES = True
 
+    #open the config file and get the image folder location and the display time
     file = open('config.cfg', 'r')
+    global fileValues
     fileValues = file.read().split(',')
+    file.close()
 
     global tkpi #need global so that the image does not get derefrenced out of function
     try:
-        #gets list of file names in certain directory. In this case, the directory it is in
-        #dirlist = glob.glob(filePath + "/*.jpg")
 
         #get random image\
-        widths = root.winfo_width()
-        heights = root.winfo_height()
-        widths = widths - 10
-        heights = heights - 10
-
-        #randInt = random.randint(0, (len(dirlist) - 1))
         filename = getfiles()
         image = Image.open(filename)
-        image = image.resize((800,450), Image.NEAREST)
 
-        #set size to show, in this case the whole picture
-       # root.geometry('%dx%d' % (image.size[0],image.size[1]))
+        #Resize image for an 800x450 screen
+        image = image.resize((800,450), Image.NEAREST)
 
         #Creates a Tkinter compatible photo image
         tkpi = ImageTk.PhotoImage(image)
@@ -41,14 +36,9 @@ def changeImage():
     except ValueError:
         print("Error")
 
-
+#Get the files in the config directory then randomize them and return the single file name
 def getfiles():
-    file = open('config.cfg', 'r')
-    fileValues = file.read().split(',')
     filePath =  fileValues[0]
-    file.close()
-    print(filePath)
-
     try:
         allfiles = glob.glob(filePath + "/*.jpg")
 
@@ -57,8 +47,6 @@ def getfiles():
         arraypos = (randint(0, numfiles-1))
         print(arraypos)
         return allfiles[arraypos]
-        # print(glob.glob("/User/hoarec/Documents/Pictures/*.jpg"))
-        # return  #glob.glob("/Users/hoarec/Documents/Pictures/*.jpg")
     except ValueError:
         thefile = getfiles();
         return thefile
@@ -66,12 +54,6 @@ def getfiles():
 tkpi = None #create this global variable so that the image is not derefrenced
 
 root = tkinter.Tk()
-#root.geometry(width=500,height=500)
-#root.geometry('+%d+%d' % (-5,-5)) #controls where the window is
-#root.attributes('-alpha', 0.0) #For icon
-#root.iconify()
-#root = tkinter.Toplevel(root)
-#root.attributes('-fullscreen',True)
-root.geometry('800x450') # Size 200, 200
+root.geometry('800x450') # Size Width 800, Heigh 480
 changeImage()
 root.mainloop()
